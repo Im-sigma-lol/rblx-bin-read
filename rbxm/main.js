@@ -28,9 +28,11 @@ if (!filePath) {
 }
 
 const buffer = fs.readFileSync(filePath);
-const model = rbxReader(buffer);
-const assets = extractAssets(model.children);
 
+// ✅ Use parseBuffer instead of readModel
+const model = rbxReader.parseBuffer(buffer);
+
+const assets = extractAssets(model.children);
 for (const asset of assets) {
     console.log(asset);
 }
