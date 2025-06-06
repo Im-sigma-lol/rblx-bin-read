@@ -1,7 +1,7 @@
 const fs = require('fs');
-const { readModel } = require('rbx-reader');
+const rbxReader = require('rbx-reader');
 
-const assetRegex = /\d{5,}/g; // Match 5+ digit numbers
+const assetRegex = /\d{5,}/g;
 const wantedProps = ["MeshId", "TextureID", "Texture", "SoundId", "AnimationId", "Graphic", "LinkedSource", "SourceAssetId"];
 
 function extractAssets(instances, results = new Set()) {
@@ -21,7 +21,6 @@ function extractAssets(instances, results = new Set()) {
     return results;
 }
 
-// Run from CLI
 const filePath = process.argv[2];
 if (!filePath) {
     console.error("Usage: node extract-assets.js <file.rbxm>");
@@ -29,7 +28,7 @@ if (!filePath) {
 }
 
 const buffer = fs.readFileSync(filePath);
-const model = readModel(buffer);
+const model = rbxReader(buffer);
 const assets = extractAssets(model.children);
 
 for (const asset of assets) {
